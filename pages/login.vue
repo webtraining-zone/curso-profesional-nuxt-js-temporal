@@ -2,18 +2,12 @@
   <section class="container">
     <notifications group="api"/>
 
-    <h1>Sign-up</h1>
+    <h1>Login</h1>
 
     <div class="row">
       <div class="col-12">
 
-        <form @submit.prevent="createAccount">
-
-          <div class="form-group">
-            <label for="name">Name*: </label>
-            <input type="text" class="form-control" id="name"
-                   placeholder="Type a name'" v-model="user.name" required/>
-          </div>
+        <form @submit.prevent="loginUser">
 
           <div class="form-group">
             <label for="username">Username*: </label>
@@ -22,20 +16,13 @@
           </div>
 
           <div class="form-group">
-            <label for="email">Email*: </label>
-            <input type="text" class="form-control" id="email"
-                   placeholder="Type an email'" v-model="user.email" required/>
-          </div>
-
-          <div class="form-group">
-            <label for="name">Password*: </label>
+            <label for="password">Password*: </label>
             <input type="password" class="form-control" id="password"
                    placeholder="Type a password'" v-model="user.password" required/>
           </div>
 
-
           <button type="submit" class="btn btn-primary" :disabled="user.name < 2">
-            Create account
+            Login
           </button>
         </form>
 
@@ -51,17 +38,24 @@
     data() {
       return {
         user: {
-          name: 'Ady',
           username: 'ady',
-          email: 'ady@webtraining.zone',
           password: 'ady',
         },
       };
     },
     components: {},
     methods: {
-      createAccount() {
-        const serviceURL = `${USERS_BASE_URL}/users`;
+      async login() {
+        try {
+          // @TODO: Store the user in a "store"
+
+
+        } catch (e) {
+          console.log(e);
+        }
+      },
+      loginUserClientSide() {
+        const serviceURL = `${USERS_BASE_URL}/users/login`;
         const data = this.user;
         const requestConfig = {
           headers: {
@@ -73,11 +67,10 @@
           console.log(userData);
 
           // notify the user everything was good!
-
           this.$notify({
             group: 'api',
             title: 'Success',
-            text: 'Account created!',
+            text: 'Login was successful!',
             duration: 5000,
             type: 'success',
           });
@@ -88,7 +81,7 @@
           this.$notify({
             group: 'api',
             title: 'Error',
-            text: 'Unable to create account!',
+            text: 'Unable to login!',
             duration: 5000,
             type: 'error',
           });
